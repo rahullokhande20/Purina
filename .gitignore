@@ -72,3 +72,6 @@ iOSInjectionProject/
 
 # Misc
 *.log
+
+# Markdown docs (kept locally, not tracked in remote)
+*.md
