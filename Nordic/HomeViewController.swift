@@ -15,13 +15,22 @@ import CoreBluetooth
 /// destination navigation to `HomeCoordinator`. This view controller owns
 /// layout, UI updates, and the alert/navigation decisions that need
 /// on-screen context (e.g. which screen is currently on top).
+///
+/// The screen renders its own large title, subtitle, and connection card
+/// above the menu list instead of using the navigation bar, so the
+/// navigation bar is hidden while this screen is on top and restored for
+/// any screen pushed on top of it.
 final class HomeViewController: UIViewController {
 
     // MARK: Constants
 
     private enum Constants {
         static let screenTitle = "Purina"
+        static let headerSubtitle = "Device connection & modes"
+        static let deviceName = "Purina Sensor"
+        static let deviceModesSectionTitle = "DEVICE MODES"
         static let estimatedRowHeight: CGFloat = 76
+        static let sectionHeaderKerning: CGFloat = 0.6
     }
 
     private enum Strings {
@@ -30,7 +39,6 @@ final class HomeViewController: UIViewController {
         static let errorTitle = "Error"
         static let connectPrompt = "Please connect to device"
         static let deviceDisconnected = "Device disconnected, Please try again"
-        static let requiresDevice = "Requires connected device"
     }
 
     // MARK: Dependencies
@@ -40,18 +48,41 @@ final class HomeViewController: UIViewController {
 
     // MARK: UI
 
-    private lazy var connectButton: CapsuleButton = {
-        let button = CapsuleButton()
-        button.setAppearance(
-            title: viewModel.connectionState.buttonTitle,
-            fillColor: viewModel.connectionState.buttonFillColor,
-            animated: false
-        )
-        button.addTarget(self, action: #selector(connectButtonTapped), for: .touchUpInside)
-        return button
+    private let headerTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = Constants.screenTitle
+        label.font = DesignSystem.Typography.largeTitle
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = DesignSystem.Palette.primaryText
+        return label
     }()
 
-    private let statusChip = StatusChipView()
+    private let headerSubtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = Constants.headerSubtitle
+        label.font = DesignSystem.Typography.subtitle
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = DesignSystem.Palette.secondaryText
+        return label
+    }()
+
+    private let connectionCard = ConnectionCardView()
+
+    private lazy var headerStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [headerTitleLabel, headerSubtitleLabel, connectionCard])
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.spacing = DesignSystem.Spacing.small
+        stack.setCustomSpacing(DesignSystem.Spacing.medium, after: headerSubtitleLabel)
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: DesignSystem.Spacing.small,
+            leading: DesignSystem.Spacing.medium,
+            bottom: DesignSystem.Spacing.small,
+            trailing: DesignSystem.Spacing.medium
+        )
+        return stack
+    }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -61,7 +92,10 @@ final class HomeViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Constants.estimatedRowHeight
-        tableView.contentInset = UIEdgeInsets(top: DesignSystem.Spacing.xSmall, left: 0, bottom: DesignSystem.Spacing.large, right: 0)
+        tableView.sectionHeaderTopPadding = 0
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
+        tableView.estimatedSectionHeaderHeight = 32
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: DesignSystem.Spacing.large, right: 0)
         tableView.register(HomeMenuCardCell.self, forCellReuseIdentifier: HomeMenuCardCell.reuseIdentifier)
         return tableView
     }()
@@ -78,55 +112,33 @@ final class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         AppDelegate.AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     // MARK: Setup
 
     private func configureAppearance() {
-        title = Constants.screenTitle
         view.backgroundColor = DesignSystem.Palette.screenBackground
-
-        // Per-item appearance so this screen adopts the modern neutral bar
-        // without restyling the screens pushed on the same navigation stack.
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
-        appearance.titleTextAttributes = [
-            .foregroundColor: DesignSystem.Palette.primaryText,
-            .font: DesignSystem.Typography.screenTitle
-        ]
-        navigationItem.standardAppearance = appearance
-        navigationItem.compactAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.tintColor = DesignSystem.Palette.brand
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: connectButton)
     }
 
     private func configureLayout() {
-        statusChip.translatesAutoresizingMaskIntoConstraints = false
+        headerStack.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(statusChip)
+        view.addSubview(headerStack)
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            statusChip.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: DesignSystem.Spacing.small
-            ),
-            statusChip.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: DesignSystem.Spacing.medium
-            ),
-            statusChip.trailingAnchor.constraint(
-                lessThanOrEqualTo: view.trailingAnchor,
-                constant: -DesignSystem.Spacing.medium
-            ),
+            headerStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            tableView.topAnchor.constraint(
-                equalTo: statusChip.bottomAnchor,
-                constant: DesignSystem.Spacing.xSmall
-            ),
+            tableView.topAnchor.constraint(equalTo: headerStack.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -152,27 +164,24 @@ final class HomeViewController: UIViewController {
         viewModel.onPeripheralDisconnected = { [weak self] in
             self?.handlePeripheralDisconnected()
         }
+        connectionCard.onActionTapped = { [weak self] in
+            self?.viewModel.connectButtonTapped()
+        }
     }
 
     // MARK: Connection UI
 
     private func updateConnectionUI(for state: HomeConnectionState, animated: Bool) {
-        connectButton.setAppearance(
-            title: state.buttonTitle,
-            fillColor: state.buttonFillColor,
+        connectionCard.configure(
+            with: ConnectionCardView.ViewModel(
+                deviceName: Constants.deviceName,
+                statusText: state.statusText,
+                statusColor: state.statusColor,
+                actionTitle: state.buttonTitle,
+                actionIsPrimary: !state.isConnected
+            ),
             animated: animated
         )
-        statusChip.update(
-            text: state.statusText,
-            statusColor: state.statusColor,
-            animated: animated
-        )
-    }
-
-    // MARK: Actions
-
-    @objc private func connectButtonTapped() {
-        viewModel.connectButtonTapped()
     }
 
     // MARK: Disconnect Handling
@@ -232,10 +241,7 @@ extension HomeViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.configure(
-            with: item.cardViewModel(
-                requiresDeviceText: Strings.requiresDevice,
-                isEnabled: viewModel.isItemEnabled(item)
-            )
+            with: item.cardViewModel(isEnabled: viewModel.isItemEnabled(item))
         )
         return cell
     }
@@ -248,6 +254,31 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = HomeMenuItem(rawValue: indexPath.row) else { return }
         viewModel.selectItem(item)
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let container = UIView()
+        let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
+        label.font = DesignSystem.Typography.sectionHeader
+        label.textColor = DesignSystem.Palette.secondaryText
+        let attributedTitle = NSMutableAttributedString(string: Constants.deviceModesSectionTitle)
+        attributedTitle.addAttribute(
+            .kern,
+            value: Constants.sectionHeaderKerning,
+            range: NSRange(location: 0, length: attributedTitle.length)
+        )
+        label.attributedText = attributedTitle
+        label.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: DesignSystem.Spacing.medium),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -DesignSystem.Spacing.medium),
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: DesignSystem.Spacing.medium),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -DesignSystem.Spacing.xSmall)
+        ])
+        return container
     }
 }
 

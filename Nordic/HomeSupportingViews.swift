@@ -45,6 +45,9 @@ enum DesignSystem {
     }
 
     enum Typography {
+        static var largeTitle: UIFont { scaledFont(baseSize: 30, weight: .bold, style: .largeTitle) }
+        static var subtitle: UIFont { scaledFont(baseSize: 15, weight: .regular, style: .subheadline) }
+        static var sectionHeader: UIFont { scaledFont(baseSize: 12, weight: .semibold, style: .footnote) }
         static var screenTitle: UIFont { scaledFont(baseSize: 17, weight: .semibold, style: .headline) }
         static var cardTitle: UIFont { scaledFont(baseSize: 16, weight: .semibold, style: .headline) }
         static var caption: UIFont { scaledFont(baseSize: 12, weight: .regular, style: .caption1) }
@@ -255,6 +258,171 @@ final class StatusChipView: UIView {
             options: [.transitionCrossDissolve, .allowUserInteraction],
             animations: apply
         )
+    }
+}
+
+// MARK: - ConnectionCardView
+
+/// Prominent card summarizing the current device connection: icon, device
+/// name, live status (dot + text), and a Connect/Disconnect pill action.
+final class ConnectionCardView: UIView {
+
+    struct ViewModel {
+        let deviceName: String
+        let statusText: String
+        let statusColor: UIColor
+        let actionTitle: String
+        /// `true` for the primary/filled action (Connect), `false` for the
+        /// neutral/outline action (Disconnect).
+        let actionIsPrimary: Bool
+    }
+
+    private enum Metrics {
+        static let iconContainerSize: CGFloat = 44
+        static let iconPointSize: CGFloat = 20
+        static let iconBackgroundAlpha: CGFloat = 0.15
+        static let dotSize: CGFloat = 8
+        static let actionHorizontalPadding: CGFloat = 16
+        static let actionVerticalPadding: CGFloat = 8
+        static let actionMinimumHeight: CGFloat = 34
+    }
+
+    var onActionTapped: (() -> Void)?
+
+    private let iconContainerView = UIView()
+    private let iconImageView = UIImageView(image: UIImage(systemName: "antenna.radiowaves.left.and.right"))
+    private let nameLabel = UILabel()
+    private let statusDotView = UIView()
+    private let statusLabel = UILabel()
+    private let actionButton = UIButton(type: .system)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureLayout()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: DesignSystem.Radius.card).cgPath
+        actionButton.layer.cornerRadius = actionButton.bounds.height / 2
+    }
+
+    private func configureLayout() {
+        backgroundColor = DesignSystem.Palette.cardBackground
+        layer.cornerRadius = DesignSystem.Radius.card
+        DesignSystem.Shadow.card.apply(to: layer)
+
+        iconContainerView.translatesAutoresizingMaskIntoConstraints = false
+        iconContainerView.layer.cornerRadius = DesignSystem.Radius.iconTile
+        iconContainerView.backgroundColor = DesignSystem.Palette.brand.withAlphaComponent(Metrics.iconBackgroundAlpha)
+
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = DesignSystem.Palette.brand
+        iconImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(
+            pointSize: Metrics.iconPointSize,
+            weight: .medium
+        )
+
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = DesignSystem.Typography.cardTitle
+        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.textColor = DesignSystem.Palette.primaryText
+
+        statusDotView.translatesAutoresizingMaskIntoConstraints = false
+        statusDotView.layer.cornerRadius = Metrics.dotSize / 2
+
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.font = DesignSystem.Typography.caption
+        statusLabel.adjustsFontForContentSizeCategory = true
+
+        let statusRow = UIStackView(arrangedSubviews: [statusDotView, statusLabel])
+        statusRow.translatesAutoresizingMaskIntoConstraints = false
+        statusRow.axis = .horizontal
+        statusRow.alignment = .center
+        statusRow.spacing = DesignSystem.Spacing.xxSmall
+
+        let textStack = UIStackView(arrangedSubviews: [nameLabel, statusRow])
+        textStack.translatesAutoresizingMaskIntoConstraints = false
+        textStack.axis = .vertical
+        textStack.spacing = 4
+
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.titleLabel?.font = DesignSystem.Typography.button
+        actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        actionButton.clipsToBounds = true
+        actionButton.contentEdgeInsets = UIEdgeInsets(
+            top: Metrics.actionVerticalPadding,
+            left: Metrics.actionHorizontalPadding,
+            bottom: Metrics.actionVerticalPadding,
+            right: Metrics.actionHorizontalPadding
+        )
+        actionButton.setContentHuggingPriority(.required, for: .horizontal)
+        actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        actionButton.addTarget(self, action: #selector(actionTapped), for: .touchUpInside)
+
+        addSubview(iconContainerView)
+        iconContainerView.addSubview(iconImageView)
+        addSubview(textStack)
+        addSubview(actionButton)
+
+        NSLayoutConstraint.activate([
+            iconContainerView.widthAnchor.constraint(equalToConstant: Metrics.iconContainerSize),
+            iconContainerView.heightAnchor.constraint(equalToConstant: Metrics.iconContainerSize),
+            iconContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: DesignSystem.Spacing.medium),
+            iconContainerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
+            iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
+
+            statusDotView.widthAnchor.constraint(equalToConstant: Metrics.dotSize),
+            statusDotView.heightAnchor.constraint(equalToConstant: Metrics.dotSize),
+
+            textStack.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: DesignSystem.Spacing.small),
+            textStack.topAnchor.constraint(equalTo: topAnchor, constant: DesignSystem.Spacing.medium),
+            textStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -DesignSystem.Spacing.medium),
+
+            actionButton.leadingAnchor.constraint(equalTo: textStack.trailingAnchor, constant: DesignSystem.Spacing.small),
+            actionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -DesignSystem.Spacing.medium),
+            actionButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            actionButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Metrics.actionMinimumHeight)
+        ])
+    }
+
+    func configure(with viewModel: ViewModel, animated: Bool) {
+        let apply = {
+            self.nameLabel.text = viewModel.deviceName
+            self.statusLabel.text = viewModel.statusText
+            self.statusLabel.textColor = viewModel.statusColor
+            self.statusDotView.backgroundColor = viewModel.statusColor
+            self.actionButton.setTitle(viewModel.actionTitle, for: .normal)
+            if viewModel.actionIsPrimary {
+                self.actionButton.backgroundColor = DesignSystem.Palette.brand
+                self.actionButton.setTitleColor(.white, for: .normal)
+            } else {
+                self.actionButton.backgroundColor = DesignSystem.Palette.chipBackground
+                self.actionButton.setTitleColor(DesignSystem.Palette.primaryText, for: .normal)
+            }
+            self.accessibilityLabel = "\(viewModel.deviceName), \(viewModel.statusText)"
+        }
+        guard animated else {
+            apply()
+            return
+        }
+        UIView.transition(
+            with: self,
+            duration: DesignSystem.Motion.transitionDuration,
+            options: [.transitionCrossDissolve, .allowUserInteraction],
+            animations: apply
+        )
+    }
+
+    @objc private func actionTapped() {
+        onActionTapped?()
     }
 }
 

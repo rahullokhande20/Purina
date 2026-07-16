@@ -33,6 +33,21 @@ enum HomeMenuItem: Int, CaseIterable {
         }
     }
 
+    /// Short description shown under the title on the home menu card.
+    var subtitle: String {
+        switch self {
+        case .singleChannelDoppler: return "Single-channel Doppler recording"
+        case .ecg: return "Electrocardiogram recording"
+        case .ecgAndSingleChannelDoppler: return "Combined recording session"
+        case .firmwareUpdate: return "Update SCD firmware"
+        case .deviceInfo: return "View SCD device details"
+        case .multiChannelDoppler: return "Multi-channel Doppler recording"
+        case .ecgAndMultiChannelDoppler: return "Combined recording session"
+        case .textFiles: return "Exported reports and logs"
+        case .deviceFirmwareUpdate: return "Update device firmware"
+        }
+    }
+
     var systemImageName: String {
         switch self {
         case .singleChannelDoppler: return "waveform.path"
@@ -81,13 +96,13 @@ enum HomeMenuItem: Int, CaseIterable {
         }
     }
 
-    func cardViewModel(requiresDeviceText: String, isEnabled: Bool) -> HomeMenuCardCell.ViewModel {
+    func cardViewModel(isEnabled: Bool) -> HomeMenuCardCell.ViewModel {
         HomeMenuCardCell.ViewModel(
             title: title,
             systemImageName: systemImageName,
             fallbackImageName: fallbackImageName,
             iconTint: iconTint,
-            caption: requiresConnectedDevice ? requiresDeviceText : nil,
+            caption: subtitle,
             isEnabled: isEnabled
         )
     }

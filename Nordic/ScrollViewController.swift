@@ -86,8 +86,14 @@ class ScrollViewController: UIViewController,ChartViewDelegate, UITextFieldDeleg
         connectButton.tag = 1
         connectButton.setTitle("Connect", for: .normal)
         connectButton.setTitleColor(UIColor.white, for: .normal)
-        connectButton.contentHorizontalAlignment = .right
-        connectButton.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
+        connectButton.titleLabel?.font = DesignSystem.Typography.button
+        // Previously had no background, so white text was invisible against
+        // the nav bar. Give it a filled pill matching Home's connect button.
+        connectButton.backgroundColor = DesignSystem.Palette.brand
+        connectButton.layer.cornerRadius = 15
+        connectButton.clipsToBounds = true
+        connectButton.contentHorizontalAlignment = .center
+        connectButton.frame = CGRect(x: 0, y: 0, width: 110, height: 30)
         connectButton.addTarget(self, action: #selector(self.scanAction), for: .touchUpInside)
         let item1 = UIBarButtonItem(customView: connectButton)
         self.navigationItem.rightBarButtonItem = item1
@@ -230,6 +236,7 @@ class ScrollViewController: UIViewController,ChartViewDelegate, UITextFieldDeleg
             singlton.shared.centralManager.cancelPeripheralConnection(peripheral2)
             connectButton.tag = 1
             connectButton.setTitle("Connect", for: .normal)
+            connectButton.backgroundColor = DesignSystem.Palette.brand
         }
     }
     
@@ -723,6 +730,7 @@ extension ScrollViewController : ScannerDelegate{
                 }
                 
                 self?.connectButton.setTitle("Disconnect", for: .normal)
+                self?.connectButton.backgroundColor = DesignSystem.Palette.accent
                 self?.startStopButton.alpha = 1.0
                 self?.startStopButton.isUserInteractionEnabled = true
                
