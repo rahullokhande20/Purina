@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05020D618C0ADBF2956ACEBE /* Pods_Purina.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E48889C03463EE29E602EC2 /* Pods_Purina.framework */; };
 		080F1A6B274424B200EA5A70 /* ECG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080F1A66274424B200EA5A70 /* ECG.swift */; };
 		080F1A6C274424B200EA5A70 /* ECGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080F1A67274424B200EA5A70 /* ECGViewController.swift */; };
 		080F1A6D274424B200EA5A70 /* PPGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080F1A69274424B200EA5A70 /* PPGViewController.swift */; };
@@ -97,13 +98,11 @@
 		0E35096F03CA4D7B44F2120B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF5708196EE0C937A9A8925 /* HomeViewModel.swift */; };
 		13D3173507F92E3DB03F4186 /* DeviceScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFDA766FA11DAB6906A440F /* DeviceScannerViewModel.swift */; };
 		49D612CC84384339F0F6B7C4 /* Data+HexDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0C9DF097964A851E80D28C /* Data+HexDescription.swift */; };
-		737B0F66EC520BB7721EA1E1 /* Pods_Purina.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E8FB10DE480766B82E4910 /* Pods_Purina.framework */; };
 		8036E95230014CE6009BDE89 /* HomeSupportingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036E95130014CE6009BDE89 /* HomeSupportingViews.swift */; };
 		8036E9543002B683009BDE89 /* HomeMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036E9533002B683009BDE89 /* HomeMenuItem.swift */; };
 		8036E9563002B68C009BDE89 /* HomeConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036E9553002B68C009BDE89 /* HomeConnectionState.swift */; };
 		8036E9583002B693009BDE89 /* BluetoothConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036E9573002B693009BDE89 /* BluetoothConnectionService.swift */; };
 		8036E95A3002B6A0009BDE89 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036E9593002B6A0009BDE89 /* HomeCoordinator.swift */; };
-		8036E95B300412C4009BDE89 /* NordicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088C55A0262743AF00FD72B5 /* NordicTests.swift */; };
 		A58DB57AB67FF7169366B96A /* SignalStrengthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD91E7CCDEB0A7005D7F9C7A /* SignalStrengthTests.swift */; };
 		C6B87DC2DC87F413263ECD21 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BDA09C2AA1E2F4B4EF444A /* HomeViewModelTests.swift */; };
 		D340FF448242DA13C72DADC7 /* HomeConnectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7DDE0F25F88D316923D71A /* HomeConnectionStateTests.swift */; };
@@ -225,16 +224,16 @@
 		0D0C9DF097964A851E80D28C /* Data+HexDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+HexDescription.swift"; sourceTree = "<group>"; };
 		0FF5708196EE0C937A9A8925 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		0FFDA766FA11DAB6906A440F /* DeviceScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceScannerViewModel.swift; sourceTree = "<group>"; };
-		53C03152912F3FFDB8FDA880 /* Pods-Purina.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Purina.debug.xcconfig"; path = "Target Support Files/Pods-Purina/Pods-Purina.debug.xcconfig"; sourceTree = "<group>"; };
+		1E48889C03463EE29E602EC2 /* Pods_Purina.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Purina.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		59BDA09C2AA1E2F4B4EF444A /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
-		5A9863E6F7E989464FA8BD5A /* Pods-Purina.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Purina.release.xcconfig"; path = "Target Support Files/Pods-Purina/Pods-Purina.release.xcconfig"; sourceTree = "<group>"; };
 		8036E95130014CE6009BDE89 /* HomeSupportingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSupportingViews.swift; sourceTree = "<group>"; };
 		8036E9533002B683009BDE89 /* HomeMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuItem.swift; sourceTree = "<group>"; };
 		8036E9553002B68C009BDE89 /* HomeConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeConnectionState.swift; sourceTree = "<group>"; };
 		8036E9573002B693009BDE89 /* BluetoothConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConnectionService.swift; sourceTree = "<group>"; };
 		8036E9593002B6A0009BDE89 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		D8E8FB10DE480766B82E4910 /* Pods_Purina.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Purina.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B8C4487F9C07DD2C839F693 /* Pods-Purina.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Purina.debug.xcconfig"; path = "Target Support Files/Pods-Purina/Pods-Purina.debug.xcconfig"; sourceTree = "<group>"; };
 		DD91E7CCDEB0A7005D7F9C7A /* SignalStrengthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalStrengthTests.swift; sourceTree = "<group>"; };
+		E5BA4989D5E082DE50FBC458 /* Pods-Purina.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Purina.release.xcconfig"; path = "Target Support Files/Pods-Purina/Pods-Purina.release.xcconfig"; sourceTree = "<group>"; };
 		ED7DDE0F25F88D316923D71A /* HomeConnectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeConnectionStateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,7 +242,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				737B0F66EC520BB7721EA1E1 /* Pods_Purina.framework in Frameworks */,
+				05020D618C0ADBF2956ACEBE /* Pods_Purina.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +310,7 @@
 				088C55AA262743AF00FD72B5 /* NordicUITests */,
 				088C5587262743AB00FD72B5 /* Products */,
 				A78D9F71992DE258A4234E30 /* Pods */,
-				3E52D79E6FCAABF0B2DEC85D /* Frameworks */,
+				534BDA7452739617394BB729 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -442,10 +441,10 @@
 			path = NordicUITests;
 			sourceTree = "<group>";
 		};
-		3E52D79E6FCAABF0B2DEC85D /* Frameworks */ = {
+		534BDA7452739617394BB729 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D8E8FB10DE480766B82E4910 /* Pods_Purina.framework */,
+				1E48889C03463EE29E602EC2 /* Pods_Purina.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -453,8 +452,8 @@
 		A78D9F71992DE258A4234E30 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				53C03152912F3FFDB8FDA880 /* Pods-Purina.debug.xcconfig */,
-				5A9863E6F7E989464FA8BD5A /* Pods-Purina.release.xcconfig */,
+				8B8C4487F9C07DD2C839F693 /* Pods-Purina.debug.xcconfig */,
+				E5BA4989D5E082DE50FBC458 /* Pods-Purina.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -466,11 +465,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 088C55B0262743AF00FD72B5 /* Build configuration list for PBXNativeTarget "Purina" */;
 			buildPhases = (
-				FC304262A68AF07BF6AD7964 /* [CP] Check Pods Manifest.lock */,
+				923AEA35772186C5922E94DD /* [CP] Check Pods Manifest.lock */,
 				088C5582262743AB00FD72B5 /* Sources */,
 				088C5583262743AB00FD72B5 /* Frameworks */,
 				088C5584262743AB00FD72B5 /* Resources */,
-				15F9B55D093261C548BA9402 /* [CP] Embed Pods Frameworks */,
+				130B442694AE86F862286CC9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -595,7 +594,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		15F9B55D093261C548BA9402 /* [CP] Embed Pods Frameworks */ = {
+		130B442694AE86F862286CC9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -616,7 +615,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Purina/Pods-Purina-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FC304262A68AF07BF6AD7964 /* [CP] Check Pods Manifest.lock */ = {
+		923AEA35772186C5922E94DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -647,7 +646,6 @@
 			files = (
 				087BBDBB27C6B2F2006674E1 /* Segment.swift in Sources */,
 				088C558E262743AB00FD72B5 /* DeviceScannerViewController.swift in Sources */,
-				8036E95B300412C4009BDE89 /* NordicTests.swift in Sources */,
 				0878E36427BAD6F100AC54C5 /* ChannellCollectionViewCell.swift in Sources */,
 				08691DAD27A2DB6400C26152 /* ChannelsViewController.swift in Sources */,
 				087BBDE227C6B468006674E1 /* DFUUpdateProgressView.swift in Sources */,
@@ -837,7 +835,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -892,7 +890,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -904,7 +902,7 @@
 		};
 		088C55B1262743AF00FD72B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53C03152912F3FFDB8FDA880 /* Pods-Purina.debug.xcconfig */;
+			baseConfigurationReference = 8B8C4487F9C07DD2C839F693 /* Pods-Purina.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -928,7 +926,7 @@
 		};
 		088C55B2262743AF00FD72B5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A9863E6F7E989464FA8BD5A /* Pods-Purina.release.xcconfig */;
+			baseConfigurationReference = E5BA4989D5E082DE50FBC458 /* Pods-Purina.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -956,7 +954,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NordicTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -977,7 +975,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NordicTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -997,6 +995,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NordicUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1016,6 +1015,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NordicUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
